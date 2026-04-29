@@ -5,11 +5,17 @@
 
 int main()
 {
-    std::string text = "abababaab";
+    std::string text1 = "abababaab";
+    std::string text2 = "abababbaa";
     std::string word = "ababaa";
 
-    if (KMP(text, word)) std::cout << "FOUND\n";
+    if (KMP(text1, word)) std::cout << "FOUND\n";
     else std::cout << "NOT FOUND\n";
+
+    if (KMP(text2, word)) std::cout << "FOUND\n";
+    else std::cout << "NOT FOUND\n";
+
+    return 0;
 }
 
 bool KMP(const std::string& text, const std::string& word)
@@ -21,10 +27,10 @@ bool KMP(const std::string& text, const std::string& word)
 	int s = 0;
 
     // we start looping thought the entire text, looking for the word
-	for (int i = 1; i < text.size(); i++)
+	for (int i = 0; i < text.size(); i++)
 	{
         // when we find a match but the next character fails, we go to the back index marked as "the next possible match".
-		while (s > 0 && text.at(i) != word.at(s)) s = failure.at(s);
+		while (s > 0 && text.at(i) != word.at(s)) s = failure.at(s - 1);
 
         // each time we find a match for the target word, we increase the counter by 1
 		if (text.at(i) == word.at(s)) s++;
@@ -35,7 +41,6 @@ bool KMP(const std::string& text, const std::string& word)
     // if we finish looping through the text, and did not reach a complemte tach for the word, it means we DID NOT found it and we return it.
 	return false;
 }
-
 
 // Same implementation just shortened and withou comments bc that's not the main point here.
 std::vector<int> findFailureSpotsKMP(const std::string& input)
